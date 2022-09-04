@@ -1,0 +1,37 @@
+image:
+  file: .gitpod/Dockerfile
+
+tasks:
+  - before: sudo mount -t tmpfs shm -osize=4096m /dev/shm
+  - name: Flutter env prep
+    before: |
+      flutter doctor
+      flutter pub get
+
+ports:
+  - port: 5900
+    onOpen: ignore
+    visibility: public
+    name: VNC Server
+  - port: 6080
+    onOpen: ignore
+    visibility: public
+    name: VNC Client
+    description: noVNC web client
+  - port: 8080
+    onOpen: ignore
+    visibility: public
+    name: Flutter Web
+    description: Where Flutter serves the web app
+  - port: 9100-9101
+    onOpen: ignore
+  - port: 40000-50000
+    onOpen: ignore
+    # visibility: public
+    name: Flutter Internals
+
+vscode:
+  extensions:
+    - dart-code.flutter
+    - dart-code.dart-code
+    - editorconfig.editorconfig

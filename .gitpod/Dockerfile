@@ -1,20 +1,4 @@
 FROM gitpod/workspace-full-vnc
-SHELL ["/bin/bash", "-c"]
-
-############################################################
-######################### FLUTTER ##########################
-############################################################
-
-USER gitpod
-WORKDIR /home/gitpod
-
-ENV FLUTTER_VERSION=3.0.5
-RUN git clone https://github.com/flutter/flutter -b ${FLUTTER_VERSION} --depth=1
-
-ENV PATH="/home/gitpod/flutter/bin:$PATH"
-ENV PUB_CACHE="/workspace/.pub_cache"
-
-############################################################
 ############################ WEB ###########################
 ############################################################
 
@@ -28,16 +12,26 @@ RUN apt-get update \
   && sudo apt-get install -y google-chrome-stable
 
 ############################################################
-########################### MISC ###########################
+######################### FLUTTER ##########################
 ############################################################
 
-# misc deps
-RUN apt-get install -y \
-  libasound2-dev \
-  libgtk-3-dev \
-  libnss3-dev \
-  fonts-noto \
-  fonts-noto-cjk
+USER gitpod
+WORKDIR /home/gitpod
+
+ENV FLUTTER_VERSION=3.0.5
+RUN git clone https://github.com/flutter/flutter -b ${FLUTTER_VERSION} --depth=1
+
+ENV PATH="$HOME/flutter/bin:$PATH"
+ENV PUB_CACHE="/workspace/.pub_cache"
+
+# Enable Flutter Web, Android and Linux Desktop
+# Also doing precache, to increase workspace init
+RUN flutter precache && for _plat in web; do flutter config --enable-${_plat}; done \
+  && flutter doctor
+
+############################################################
+########################### MISC ###########################
+############################################################
 
 # For Qt WebEngine on docker
 ENV QTWEBENGINE_DISABLE_SANDBOX 1

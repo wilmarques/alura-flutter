@@ -25,21 +25,15 @@ import 'models/account.dart';
 // }
 
 void main() {
-  print('Started main');
-  functionOne();
-  print('Finished main');
-}
-
-void functionOne() {
-  print('Started f01');
-  functionTwo();
-  print('Finished f01');
-}
-
-void functionTwo() {
-  print('Started f02');
-  for (var i = 0; i <= 5; i++) {
-    print('f02 $i');
+  try {
+    testFunc();
+  } on Exception catch (e) {
+    print('Exception');
+  } catch (e) {
+    print('Qualquer');
   }
-  print('Finished f02');
+}
+
+void testFunc() {
+  throw 'Teste';
 }

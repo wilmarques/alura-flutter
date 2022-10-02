@@ -21,8 +21,9 @@ ports:
     onOpen: ignore
     name: Flutter Web
     visibility: public
-  - port: 9100-9101
+  - port: 9100-9105
     onOpen: ignore
+    name: Flutter things I don't know yet
   - port: 40000-50000
     onOpen: ignore
     name: Flutter Internals

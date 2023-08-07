@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Get current user
+CURRENT_USER=$(whoami)
+# Log in as root
+sudo su root
+
 # Install Android SDK and its dependencies
 # Depends on Java pre-installed in devcontainer config
 
@@ -29,3 +34,6 @@ mv $ANDROID_HOME/cmdline-tools/lib $COMMAND_LINE_TOOLS_PATH
 yes | sdkmanager "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" "platforms;android-${ANDROID_PLATFORM_VERSION}"
 # Accept Android licenses (required for sdkmanager)
 yes | sdkmanager --licenses
+
+# Get back to previous user
+su - ${CURRENT_USER}

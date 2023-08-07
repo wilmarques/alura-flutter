@@ -7,6 +7,11 @@
 
 set -e
 
+# Get current user
+CURRENT_USER=$(whoami)
+# Log in as root
+sudo su root
+
 # Update apt packages
 apt update
 # Install Flutter dependencies not available in the base image (Ubuntu)
@@ -55,3 +60,6 @@ flutter precache
 
 # Check if Flutter is working
 flutter doctor
+
+# Get back to previous user
+su - ${CURRENT_USER}

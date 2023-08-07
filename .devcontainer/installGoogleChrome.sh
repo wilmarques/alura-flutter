@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Get current user
+CURRENT_USER=$(whoami)
+# Log in as root
+sudo su root
+
 # Update apt packages
 apt update
 # Install Chrome dependencies not available in the base image (Ubuntu)
@@ -11,10 +16,13 @@ echo 'export QTWEBENGINE_DISABLE_SANDBOX=1' >> /etc/bash.bashrc
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
 # Install downloaded file
-sudo dpkg -i ./chrome.deb
+dpkg -i ./chrome.deb
 # Delete downloaded file
 rm -f chrome.deb
 
 # Set CHROME_EXECUTABLE to Google Chrome location
 export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
 echo "export CHROME_EXECUTABLE=${CHROME_EXECUTABLE}" >> /etc/bash.bashrc
+
+# Get back to previous user
+su - ${CURRENT_USER}

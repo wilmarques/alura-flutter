@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Column(
-        children: [
+      body: Column(
+        children: const [
           Card(
             child: ListTile(
               leading: Icon(Icons.monetization_on),

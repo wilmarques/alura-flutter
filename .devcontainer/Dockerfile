@@ -30,8 +30,7 @@ RUN _file_name="commandlinetools-linux-8092744_latest.zip" && wget "https://dl.g
 ############################################################
 
 # Install Google Chrome
-RUN apt update \
-  && apt install -y apt-transport-https \
+RUN apt install -y apt-transport-https \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt update \
@@ -57,8 +56,7 @@ RUN git config --global --add safe.directory $FLUTTER_HOME
 # Give permissions of read/writing to all users on Flutter dir
 RUN chmod -R 777 $FLUTTER_HOME
 
-# ENV PATH="$HOME/flutter/bin:$PATH"
-ENV PATH=$FLUTTER_HOME/bin:$PATH
+ENV PATH="$FLUTTER_HOME/bin:$PATH"
 ENV PUB_CACHE=$FLUTTER_HOME/.pub_cache
 
 # Enable Flutter Web, Android and Linux Desktop

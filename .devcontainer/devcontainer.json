@@ -3,10 +3,11 @@
 {
   "name": "Default Linux Universal",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
-  // "build": {
-  //   "dockerfile": "Dockerfile"
-  // },
+  // "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/desktop-lite:1": {
       "version": "latest",
@@ -38,8 +39,6 @@
       "version": "latest"
     }
   },
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [
     5900,
@@ -61,6 +60,11 @@
         "DavidAnson.vscode-markdownlint"
       ]
     }
+  },
+  "hostRequirements": {
+    "cpus": 8,
+    "memory": "32gb",
+    "storage": "64gb"
   }
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"

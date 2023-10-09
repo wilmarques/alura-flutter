@@ -17,12 +17,14 @@ RUN apt update \
 ENV ANDROID_HOME=$TOOLS_HOME/androidsdk
 ENV PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
+ARG _file_name="commandlinetools-linux-8092744_latest.zip"
 # Install Android SDK Manager and Android 31
-RUN _file_name="commandlinetools-linux-8092744_latest.zip" && wget "https://dl.google.com/android/repository/$_file_name" \
+RUN wget "https://dl.google.com/android/repository/$_file_name" \
   && unzip "$_file_name" -d $ANDROID_HOME \
   && rm -f "$_file_name" \
   && mkdir -p $ANDROID_HOME/cmdline-tools/latest \
-  && mv $ANDROID_HOME/cmdline-tools/{bin,lib} $ANDROID_HOME/cmdline-tools/latest \
+  && mv $ANDROID_HOME/cmdline-tools/bin $ANDROID_HOME/cmdline-tools/latest \
+  && mv $ANDROID_HOME/cmdline-tools/lib $ANDROID_HOME/cmdline-tools/latest \
   && yes | sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31"
 
 ############################################################

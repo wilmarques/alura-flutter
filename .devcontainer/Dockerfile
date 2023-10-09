@@ -1,11 +1,17 @@
 FROM mcr.microsoft.com/devcontainers/universal:2-linux
 
-ENV TOOLS_HOME=/usr/local
-WORKDIR ${TOOLS_HOME}
+ARG USERNAME=${USERNAME:-"codespace"}
+USER ${USERNAME}
+
+# ENV TOOLS_HOME=/usr/local
+# WORKDIR ${TOOLS_HOME}
+WORKDIR $HOME
 
 ############################################################
 ########################## LINUX ###########################
 ############################################################
+
+USER root
 
 RUN apt update \
   && apt install -y cmake libgtk-3-dev ninja-build
@@ -14,7 +20,9 @@ RUN apt update \
 ######################### ANDROID ##########################
 ############################################################
 
-ENV ANDROID_HOME=$TOOLS_HOME/androidsdk
+USER ${USERNAME}
+
+ENV ANDROID_HOME=$HOME/androidsdk
 ENV PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
 ARG _file_name="commandlinetools-linux-8092744_latest.zip"
@@ -30,6 +38,8 @@ RUN wget "https://dl.google.com/android/repository/$_file_name" \
 ############################################################
 ############################ WEB ###########################
 ############################################################
+
+USER root
 
 # Install Google Chrome
 RUN apt install -y apt-transport-https \
@@ -50,13 +60,20 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
 ######################### FLUTTER ##########################
 ############################################################
 
-ENV FLUTTER_HOME=$TOOLS_HOME/flutter
+USER ${USERNAME}
+
+ENV FLUTTER_HOME=$HOME/flutter
 ENV FLUTTER_VERSION=3.13.5
 
+# USER root
+# # Create FLUTTER_HOME dir
+# RUN mkdir -p $FLUTTER_HOME
+# # Give remote user the ownership of FLUTTER_HOME
+# RUN chown -R ${USERNAME} $FLUTTER_HOME
+# # Switch to remote user
+# USER ${USERNAME}
+# Clone Flutter into FLUTTER_HOME
 RUN git clone https://github.com/flutter/flutter -b $FLUTTER_VERSION $FLUTTER_HOME
-RUN git config --global --add safe.directory $FLUTTER_HOME
-# Give permissions of read/writing to all users on Flutter dir
-RUN chmod -R 777 $FLUTTER_HOME
 
 ENV PATH="$FLUTTER_HOME/bin:$PATH"
 ENV PUB_CACHE=$FLUTTER_HOME/.pub_cache

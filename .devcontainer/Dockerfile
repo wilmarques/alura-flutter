@@ -1,11 +1,8 @@
 FROM mcr.microsoft.com/devcontainers/universal:2-linux
 
 ARG USERNAME=${USERNAME:-"codespace"}
-USER ${USERNAME}
 
-# ENV TOOLS_HOME=/usr/local
-# WORKDIR ${TOOLS_HOME}
-WORKDIR $HOME
+ENV TOOLS_HOME=/usr/local
 
 ############################################################
 ########################## LINUX ###########################
@@ -20,17 +17,23 @@ RUN apt update \
 ######################### ANDROID ##########################
 ############################################################
 
-USER ${USERNAME}
+USER root
 
-ENV ANDROID_HOME=$HOME/androidsdk
+ENV ANDROID_HOME=$TOOLS_HOME/androidsdk
 ENV PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
-ARG _file_name="commandlinetools-linux-8092744_latest.zip"
 # Install Android SDK Manager and Android 31
-RUN wget "https://dl.google.com/android/repository/$_file_name" \
+RUN _file_name="commandlinetools-linux-8092744_latest.zip" \
+  && wget "https://dl.google.com/android/repository/$_file_name" \
   && unzip "$_file_name" -d $ANDROID_HOME \
   && rm -f "$_file_name" \
-  && mkdir -p $ANDROID_HOME/cmdline-tools/latest \
+
+# Give remote user the ownership of ANDROID_HOME
+RUN chown -R ${USERNAME} $ANDROID_HOME
+
+# Move Android Tools to latest dir
+USER $USERNAME
+RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest \
   && mv $ANDROID_HOME/cmdline-tools/bin $ANDROID_HOME/cmdline-tools/latest \
   && mv $ANDROID_HOME/cmdline-tools/lib $ANDROID_HOME/cmdline-tools/latest \
   && yes | sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31"
@@ -60,18 +63,16 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
 ######################### FLUTTER ##########################
 ############################################################
 
-USER ${USERNAME}
-
-ENV FLUTTER_HOME=$HOME/flutter
+ENV FLUTTER_HOME=$TOOLS_HOME/flutter
 ENV FLUTTER_VERSION=3.13.5
 
-# USER root
-# # Create FLUTTER_HOME dir
-# RUN mkdir -p $FLUTTER_HOME
-# # Give remote user the ownership of FLUTTER_HOME
-# RUN chown -R ${USERNAME} $FLUTTER_HOME
-# # Switch to remote user
-# USER ${USERNAME}
+USER root
+# Create FLUTTER_HOME dir
+RUN mkdir -p $FLUTTER_HOME
+# Give remote user the ownership of FLUTTER_HOME
+RUN chown -R ${USERNAME} $FLUTTER_HOME
+# Switch to remote user
+USER ${USERNAME}
 # Clone Flutter into FLUTTER_HOME
 RUN git clone https://github.com/flutter/flutter -b $FLUTTER_VERSION $FLUTTER_HOME
 

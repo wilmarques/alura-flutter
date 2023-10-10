@@ -26,9 +26,9 @@ ENV PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools
 RUN _file_name="commandlinetools-linux-8092744_latest.zip" \
   && wget "https://dl.google.com/android/repository/$_file_name" \
   && unzip "$_file_name" -d $ANDROID_HOME \
-  && rm -f "$_file_name" \
+  && rm -f "$_file_name"
 
-# Give remote user the ownership of ANDROID_HOME
+# Give remote user ownership of ANDROID_HOME
 RUN chown -R ${USERNAME} $ANDROID_HOME
 
 # Move Android Tools to latest dir
@@ -63,18 +63,21 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
 ######################### FLUTTER ##########################
 ############################################################
 
+USER root
+
 ENV FLUTTER_HOME=$TOOLS_HOME/flutter
 ENV FLUTTER_VERSION=3.13.5
+ENV FLUTTER_GIT_URL=https://github.com/flutter/flutter
 
-USER root
 # Create FLUTTER_HOME dir
 RUN mkdir -p $FLUTTER_HOME
-# Give remote user the ownership of FLUTTER_HOME
+# Give remote user ownership of FLUTTER_HOME
 RUN chown -R ${USERNAME} $FLUTTER_HOME
+
 # Switch to remote user
 USER ${USERNAME}
 # Clone Flutter into FLUTTER_HOME
-RUN git clone https://github.com/flutter/flutter -b $FLUTTER_VERSION $FLUTTER_HOME
+RUN git clone ${FLUTTER_GIT_URL} -b $FLUTTER_VERSION $FLUTTER_HOME
 
 ENV PATH="$FLUTTER_HOME/bin:$PATH"
 ENV PUB_CACHE=$FLUTTER_HOME/.pub_cache

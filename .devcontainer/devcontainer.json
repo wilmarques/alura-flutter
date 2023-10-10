@@ -2,8 +2,6 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
   "name": "Default Linux Universal",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  // "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -31,9 +29,7 @@
       "version": "11",
       "jdkDistro": "ms",
       "installGradle": true,
-      "gradleVersion": "latest",
-      "mavenVersion": "latest",
-      "antVersion": "latest"
+      "gradleVersion": "latest"
     },
     "ghcr.io/devcontainers/features/sshd:1": {
       "version": "latest"
@@ -60,12 +56,12 @@
         "DavidAnson.vscode-markdownlint"
       ]
     }
-  },
-  "hostRequirements": {
-    "cpus": 8,
-    "memory": "32gb",
-    "storage": "64gb"
   }
+  // "hostRequirements": {
+  //   "cpus": 8,
+  //   "memory": "32gb",
+  //   "storage": "64gb"
+  // }
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
 }

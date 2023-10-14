@@ -1,11 +1,14 @@
 FROM mcr.microsoft.com/devcontainers/universal:2-linux
 
+ARG USERNAME=${USERNAME:-"codespace"}
+
 ENV TOOLS_HOME=/usr/local
-WORKDIR ${TOOLS_HOME}
 
 ############################################################
 ########################## LINUX ###########################
 ############################################################
+
+USER root
 
 RUN apt update \
   && apt install -y cmake libgtk-3-dev ninja-build
@@ -14,24 +17,35 @@ RUN apt update \
 ######################### ANDROID ##########################
 ############################################################
 
+USER root
+
 ENV ANDROID_HOME=$TOOLS_HOME/androidsdk
 ENV PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
 # Install Android SDK Manager and Android 31
-RUN _file_name="commandlinetools-linux-8092744_latest.zip" && wget "https://dl.google.com/android/repository/$_file_name" \
+RUN _file_name="commandlinetools-linux-8092744_latest.zip" \
+  && wget "https://dl.google.com/android/repository/$_file_name" \
   && unzip "$_file_name" -d $ANDROID_HOME \
-  && rm -f "$_file_name" \
-  && mkdir -p $ANDROID_HOME/cmdline-tools/latest \
-  && mv $ANDROID_HOME/cmdline-tools/{bin,lib} $ANDROID_HOME/cmdline-tools/latest \
+  && rm -f "$_file_name"
+
+# Give remote user ownership of ANDROID_HOME
+RUN chown -R ${USERNAME} $ANDROID_HOME
+
+# Move Android Tools to latest dir
+USER $USERNAME
+RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest \
+  && mv $ANDROID_HOME/cmdline-tools/bin $ANDROID_HOME/cmdline-tools/latest \
+  && mv $ANDROID_HOME/cmdline-tools/lib $ANDROID_HOME/cmdline-tools/latest \
   && yes | sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31"
 
 ############################################################
 ############################ WEB ###########################
 ############################################################
 
+USER root
+
 # Install Google Chrome
-RUN apt update \
-  && apt install -y apt-transport-https \
+RUN apt install -y apt-transport-https \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt update \
@@ -49,16 +63,23 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
 ######################### FLUTTER ##########################
 ############################################################
 
+USER root
+
 ENV FLUTTER_HOME=$TOOLS_HOME/flutter
 ENV FLUTTER_VERSION=3.13.5
+ENV FLUTTER_GIT_URL=https://github.com/flutter/flutter
 
-RUN git clone https://github.com/flutter/flutter -b $FLUTTER_VERSION $FLUTTER_HOME
-RUN git config --global --add safe.directory $FLUTTER_HOME
-# Give permissions of read/writing to all users on Flutter dir
-RUN chmod -R 777 $FLUTTER_HOME
+# Create FLUTTER_HOME dir
+RUN mkdir -p $FLUTTER_HOME
+# Give remote user ownership of FLUTTER_HOME
+RUN chown -R ${USERNAME} $FLUTTER_HOME
 
-# ENV PATH="$HOME/flutter/bin:$PATH"
-ENV PATH=$FLUTTER_HOME/bin:$PATH
+# Switch to remote user
+USER ${USERNAME}
+# Clone Flutter into FLUTTER_HOME
+RUN git clone ${FLUTTER_GIT_URL} -b $FLUTTER_VERSION $FLUTTER_HOME
+
+ENV PATH="$FLUTTER_HOME/bin:$PATH"
 ENV PUB_CACHE=$FLUTTER_HOME/.pub_cache
 
 # Enable Flutter Web, Android and Linux Desktop

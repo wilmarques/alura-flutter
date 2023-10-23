@@ -36,14 +36,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: [
-          Task('Apredendo Flutter'),
+          Task('Facil', 'src', 0),
+          Task('Apredendo Flutter', 'src', 3),
           Task(
-              'askdjalskdj alsdjalsdkj alsdj lasjdl ajsdlkja ldskajslkd jklasdjk'),
-          Task('Andar de Bike'),
-          Task('Meditar'),
-          Task('Meditar'),
-          Task('Meditar'),
-          Task('Meditar'),
+              'askdjalskdj alsdjalsdkj alsdj lasjdl ajsdlkja ldskajslkd jklasdjk',
+              'src',
+              1),
+          Task('Andar de Bike', 'src', 2),
+          Task('Meditar', 'src', 4),
+          Task('Comer', 'src', 5),
         ],
       ),
     );
@@ -52,8 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class Task extends StatefulWidget {
   final String name;
+  final String photo;
+  final int difficulty;
 
-  const Task(this.name, {super.key});
+  const Task(this.name, this.photo, this.difficulty, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -70,31 +73,89 @@ class _TaskState extends State<Task> {
         child: Stack(
           children: [
             Container(
-              color: Colors.blue,
               height: 140,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Colors.blue,
+              ),
             ),
             Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
+                  ),
                   height: 100,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: Colors.black26,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.black26,
+                        ),
                         width: 72,
                         height: 100,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child:
+                                Image.network(widget.photo, fit: BoxFit.cover)),
                       ),
-                      Container(
-                        width: 150,
-                        child: Text(
-                          widget.name,
-                          style: TextStyle(
-                            fontSize: 24,
-                            overflow: TextOverflow.ellipsis,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 150,
+                            child: Text(
+                              widget.name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
-                        ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: widget.difficulty >= 1
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                                size: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: widget.difficulty >= 2
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                                size: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: widget.difficulty >= 3
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                                size: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: widget.difficulty >= 4
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                                size: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: widget.difficulty >= 5
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                                size: 15,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       Container(
                         height: 52,
@@ -108,11 +169,11 @@ class _TaskState extends State<Task> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              const Icon(Icons.arrow_drop_up),
                               const Text(
                                 'Up',
                                 style: TextStyle(fontSize: 12),
                               ),
-                              const Icon(Icons.arrow_drop_up),
                             ],
                           ),
                         ),
@@ -128,9 +189,10 @@ class _TaskState extends State<Task> {
                       child: Container(
                         width: 200,
                         child: LinearProgressIndicator(
-                          color: Colors.white,
-                          value: level / 10,
-                        ),
+                            color: Colors.white,
+                            value: widget.difficulty > 0
+                                ? (level / widget.difficulty) / 10
+                                : 1),
                       ),
                     ),
                     Padding(

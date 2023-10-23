@@ -31,11 +31,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         title: const Text('Tarefas'),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Task('Apredendo Flutter'),
+          Task(
+              'askdjalskdj alsdjalsdkj alsdj lasjdl ajsdlkja ldskajslkd jklasdjk'),
           Task('Andar de Bike'),
           Task('Meditar'),
           Task('Meditar'),
@@ -47,39 +50,102 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Task extends StatelessWidget {
-  final String taskName;
-  const Task(this.taskName, {super.key});
+class Task extends StatefulWidget {
+  final String name;
+
+  const Task(this.name, {super.key});
+
+  @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  int level = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.blue,
-            height: 140,
-          ),
-          Container(
-            color: Colors.white,
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.blue,
+              height: 140,
+            ),
+            Column(
               children: [
                 Container(
-                  color: Colors.black26,
-                  width: 72,
+                  color: Colors.white,
                   height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: Colors.black26,
+                        width: 72,
+                        height: 100,
+                      ),
+                      Container(
+                        width: 150,
+                        child: Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontSize: 24,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 52,
+                        width: 52,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              level++;
+                            });
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                'Up',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              const Icon(Icons.arrow_drop_up),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(taskName),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Icon(Icons.arrow_drop_up),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Container(
+                        width: 200,
+                        child: LinearProgressIndicator(
+                          color: Colors.white,
+                          value: level / 10,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        'Nivel: $level',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

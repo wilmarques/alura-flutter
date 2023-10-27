@@ -1,27 +1,27 @@
+import 'package:client_control/pages/client_types_page.dart';
 import 'package:flutter/material.dart';
+import 'pages/clients_page.dart';
 
 void main() {
-  runApp(const AluraFlutterApp());
+  runApp(const MyApp());
 }
 
-class AluraFlutterApp extends StatelessWidget {
-  const AluraFlutterApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Alura Flutter',
+      title: 'Controle de clientes',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Veja o README',
-            style: TextStyle(fontSize: 50),
-          ),
-        ),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const ClientsPage(title: 'Clientes'),
+        '/tipos': (context) => const ClientTypesPage(title: 'Tipos de cliente'),
+      },
     );
   }
 }

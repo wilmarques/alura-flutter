@@ -1,16 +1,12 @@
-# alura_flutter
+# Formação Flutter Alura
 
-A new Flutter project.
+Projetos criados durante a Formação Flutter na Alura.
 
-## Getting Started
+Os cursos e projetos estão separados em branches.
 
-This project is a starting point for a Flutter application.
+## Cursos
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Nome                                                       | Branch                                               | Link                                                                                      |
+| ---------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Flutter: Widgets, Stateless, Stateful, Imagens e Animações | flutter-widgets-stateless-stateful-imagens-animacoes | <https://cursos.alura.com.br/course/flutter-widgets-stateless-stateful-imagens-animacoes> |
+| Flutter: gerenciamento de estados com Provider             | flutter-gerenciamento-de-estados-provider            | <https://cursos.alura.com.br/course/flutter-gerenciamento-de-estados-provider>            |

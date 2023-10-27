@@ -12,7 +12,7 @@ class AluraFlutterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Alura Flutter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

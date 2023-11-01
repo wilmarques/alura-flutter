@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
+import 'data/task_inherited.dart';
+import 'screens/home_page.dart';
 
 void main() {
   runApp(const AluraFlutterApp());
@@ -16,7 +17,7 @@ class AluraFlutterApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: TaskInherited(child: HomePage()),
     );
   }
 }

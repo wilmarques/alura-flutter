@@ -9,5 +9,10 @@
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "onlySnippets",
     "editor.wordBasedSuggestions": false
-  }
+  },
+  "dart.devToolsBrowser": "default",
+  "dart.documentation": "full",
+  "dart.debugSdkLibraries": false,
+  "dart.lineLength": 140,
+  "vim.textwidth": 140
 }

@@ -11,30 +11,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool opacity = true;
-
   @override
   Widget build(BuildContext context) {
-    final taskInherited = TaskInherited.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
         title: const Text('Tarefas'),
       ),
-      body: AnimatedOpacity(
-        opacity: opacity ? 1 : 0,
-        duration: const Duration(seconds: 1),
-        child: ListView(
-          children: taskInherited.tasks,
-        ),
+      body: ListView(
+        padding: const EdgeInsets.only(top: 8, bottom: 80),
+        children: TaskInherited.of(context).tasks,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => FormScreen(inheritedContext: context),
+              builder: (_) => FormScreen(context: context),
             ),
           );
         },

@@ -1,12 +1,14 @@
 import 'package:alura_flutter/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
-import '../task.dart';
+import '../components/task.dart';
 
 class FormScreen extends StatefulWidget {
-  final BuildContext inheritedContext;
+  final BuildContext _inheritedContext;
 
-  const FormScreen({Key? key, required this.inheritedContext}) : super(key: key);
+  const FormScreen({Key? key, required BuildContext context})
+      : _inheritedContext = context,
+        super(key: key);
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -82,13 +84,14 @@ class _FormScreenState extends State<FormScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    keyboardType: TextInputType.url,
                     controller: _imageController,
                     validator: (value) => value!.isEmpty ? 'Insira uma URL de imagem' : null,
                     // https://docs.flutter.dev/assets/images/shared/brand/flutter/logo/flutter-mono-81x100.png
+                    // https://placehold.co/600x400.png
                     onChanged: (value) {
                       setState(() {});
                     },
+                    keyboardType: TextInputType.url,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -125,7 +128,7 @@ class _FormScreenState extends State<FormScreen> {
                         print(_difficultyController.text);
                         print(_imageController.text);
 
-                        TaskInherited.of(widget.inheritedContext)!.addTask(
+                        TaskInherited.of(widget._inheritedContext).addTask(
                           Task(
                             _nameController.text,
                             _imageController.text,

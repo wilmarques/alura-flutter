@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../task.dart';
+import '../components/task.dart';
 
 class TaskInherited extends InheritedWidget {
-  final List<Task> tasks = [
-    const Task('Facil', 'images/placeholder-200.png', 0),
-  ];
+  final List<Task> tasks;
 
-  TaskInherited({
+  const TaskInherited({
     Key? key,
+    required this.tasks,
     required Widget child,
   }) : super(key: key, child: child);
 
-  static TaskInherited? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<TaskInherited>();
+  static TaskInherited of(BuildContext context) {
+    final TaskInherited? result = context.dependOnInheritedWidgetOfExactType<TaskInherited>();
+    assert(result != null, 'No TaskInherited found in context');
+    return result!;
   }
 
   @override
   bool updateShouldNotify(TaskInherited oldWidget) {
-    return oldWidget.tasks.length != tasks.length;
+    return oldWidget.tasks != tasks;
   }
 
   void addTask(Task task) {

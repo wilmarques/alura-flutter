@@ -1,12 +1,5 @@
-# Formação Flutter Alura
+# Controller, navegação e estados
 
-Projetos criados durante a Formação Flutter na Alura.
+Aplicativo criado durante o curso "Flutter: Controller, navegação e estados" na Alura.
 
-Os cursos e projetos estão separados em branches.
-
-## Cursos
-
-| Nome                                                       | Branch                                               | Link                                                                                      |
-| ---------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Flutter: Widgets, Stateless, Stateful, Imagens e Animações | flutter-widgets-stateless-stateful-imagens-animacoes | <https://cursos.alura.com.br/course/flutter-widgets-stateless-stateful-imagens-animacoes> |
-| Flutter: gerenciamento de estados com Provider             | flutter-gerenciamento-de-estados-provider            | <https://cursos.alura.com.br/course/flutter-gerenciamento-de-estados-provider>            |
+Que pode ser encontrado em: <https://cursos.alura.com.br/course/flutter-controller-navegacao-estados>.

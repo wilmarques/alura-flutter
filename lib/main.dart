@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: purpleTheme,
-      home: BankInherited(child: const Home()),
+      home: BankInherited(child: const HomeScreen()),
     );
   }
 }

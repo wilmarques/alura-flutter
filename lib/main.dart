@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'data/bank_inherited.dart';
+import 'screens/home.dart';
+import 'themes/purple_theme.dart';
+
 void main() {
-  runApp(const AluraFlutterApp());
+  runApp(const MyApp());
 }
 
-class AluraFlutterApp extends StatelessWidget {
-  const AluraFlutterApp({Key? key}) : super(key: key);
-
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Alura Flutter',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Veja o README',
-            style: TextStyle(fontSize: 50),
-          ),
-        ),
-      ),
+      title: 'Flutter Demo',
+      theme: purpleTheme,
+      home: BankInherited(child: const Home()),
     );
   }
 }
